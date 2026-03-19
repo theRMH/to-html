@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL to Offline HTML</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <h1>URL to HTML</h1>
+        <p class="lead">Mirror any publicly available page into offline HTML/CSS/JS assets.</p>
+
+        <!-- Step 1: Discover -->
+        <form id="discover-form">
+            <label for="url-input">Page URL</label>
+            <input id="url-input" name="url" type="url" placeholder="https://example.com" required>
+            <button type="submit">Discover Pages</button>
+        </form>
+
+        <!-- Step 2: Select pages -->
+        <section id="page-selection" hidden>
+            <h2>Select pages to download</h2>
+            <div id="page-list"></div>
+            <div class="selection-actions">
+                <label><input type="checkbox" id="select-all"> Select all</label>
+                <button id="download-btn" type="button">Download Selected</button>
+            </div>
+        </section>
+
+        <!-- Status -->
+        <section class="status-panel">
+            <p id="status-message">Enter a URL to get started.</p>
+        </section>
+
+        <!-- Results -->
+        <section id="results-section" hidden>
+            <h2>Downloaded pages</h2>
+            <ul id="results-list"></ul>
+        </section>
+
+        <!-- Skipped / Failed assets -->
+        <section id="skips-section" hidden>
+            <h2>Skipped / Failed assets</h2>
+            <div id="skips-list"></div>
+        </section>
+
+        <!-- Log -->
+        <section>
+            <h2>Log</h2>
+            <pre id="log-output" spellcheck="false"></pre>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
