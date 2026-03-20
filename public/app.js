@@ -148,6 +148,24 @@ downloadBtn.addEventListener('click', async () => {
                             li.innerHTML = `<a href="${r.siteUrl}" target="_blank" rel="noreferrer">${r.url}</a>`;
                             resultsList.appendChild(li);
                         });
+
+                        // Show sitemap and robots.txt links
+                        if (event.sitemapUrl || event.robotsUrl) {
+                            const sep = document.createElement('li');
+                            sep.style.cssText = 'list-style:none;margin-top:.75em;padding-top:.75em;border-top:1px solid #ddd;font-size:.85em;color:#555';
+                            sep.textContent = 'Generated files:';
+                            resultsList.appendChild(sep);
+                        }
+                        if (event.sitemapUrl) {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<a href="${event.sitemapUrl}" target="_blank" rel="noreferrer">sitemap.xml</a>`;
+                            resultsList.appendChild(li);
+                        }
+                        if (event.robotsUrl) {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<a href="${event.robotsUrl}" target="_blank" rel="noreferrer">robots.txt</a>`;
+                            resultsList.appendChild(li);
+                        }
                     }
 
                     if (failed.length > 0) {
