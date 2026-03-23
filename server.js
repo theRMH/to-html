@@ -247,6 +247,7 @@ function neutralizeDynamicFeatures($) {
 // ── Fix lazy-loaded images: data-src → src ───────────────────────────────────
 
 function fixLazyImages($) {
+    // <img data-src> → <img src>
     $('img[data-src], img[data-lazy-src], img[data-original]').each((_, el) => {
         const lazySrc =
             $(el).attr('data-src') ||
@@ -255,6 +256,24 @@ function fixLazyImages($) {
         if (!lazySrc) return;
         $(el).attr('src', lazySrc);
         $(el).removeAttr('data-src').removeAttr('data-lazy-src').removeAttr('data-original');
+        const cls = ($(el).attr('class') || '')
+            .replace(/\b(penci-lazy|lazy|lazyload|lazyloaded)\b/g, '')
+            .trim();
+        if (cls) $(el).attr('class', cls);
+        else $(el).removeAttr('class');
+    });
+
+    // <a data-src>, <div data-src>, etc. (Penci gallery / mentor image-holder)
+    // These are CSS background-image containers — inject style directly so no JS needed
+    $('[data-src]:not(img), [data-lazy-src]:not(img)').each((_, el) => {
+        const lazySrc =
+            $(el).attr('data-src') ||
+            $(el).attr('data-lazy-src');
+        if (!lazySrc) return;
+        const existing = $(el).attr('style') || '';
+        const sep = existing && !existing.trim().endsWith(';') ? '; ' : '';
+        $(el).attr('style', existing + sep + `background-image:url('${lazySrc}')`);
+        $(el).removeAttr('data-src').removeAttr('data-lazy-src');
         const cls = ($(el).attr('class') || '')
             .replace(/\b(penci-lazy|lazy|lazyload|lazyloaded)\b/g, '')
             .trim();
@@ -790,5 +809,5 @@ app.post('/api/download', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`URL-to-HTML web app running on http://localhost:${port}`);
+    console.log(`RMHtml running on http://localhost:${port}`);
 });
